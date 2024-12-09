@@ -1,0 +1,9 @@
+ID,name,species_code,breed,age,healthStatus_code,adoptionStatus_code,adopter_ID
+97e8a6f2-65a0-4c70-809d-90c9f8579a4f,Browny,DG,Indian Pariah Dog,3,H,A
+3a519a3d-8c4b-426d-8450-2ed22732b3fc,Moti,DG,Gaddi Dog,2,RA,A
+6f2f7f2c-df59-46de-a1b5-b7a2393a0205,Ginger,CA,Persian Cat,4,H,A
+0cf827e2-1e88-42c7-8413-94550b38c856,Fluffy,CA,Himalayan Cat,5,RA,A
+58f7d844-1df0-4a5e-8a45-f16589b54ea3,Thumbi,BD,Indian Myna,1,H,A
+8144c989-d191-40a0-9a48-53d8336d0f65,Mithu,BD,Alexandrine Parakeet,2,C,A
+b9f792dc-c091-4ed4-96b6-647b7abafe63,Bunty,RB,Indian Hare,3,H,A
+ff36d267-b68f-4f9f-bbc4-02a67407079f,Kuttu,RB,Lop-Eared Rabbit,1,C,A

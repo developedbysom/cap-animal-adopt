@@ -1,0 +1,4 @@
+code,name,criticality
+H,Healthy,3
+RA,Require Attention,2
+C,Critical,1

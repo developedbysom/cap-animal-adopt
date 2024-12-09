@@ -1,0 +1,2 @@
+
+using from './adopter/annotations';

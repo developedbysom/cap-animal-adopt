@@ -1,0 +1,197 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "ns.adopter",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.12.4",
+      "toolsId": "14ab5be4-ed42-41c9-8d86-6640436d801a"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/adopter/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.131.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "ns.adopter.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "AnimalsList",
+          "target": "AnimalsList"
+        },
+        {
+          "pattern": "Animals({key}):?query:",
+          "name": "AnimalsObjectPage",
+          "target": "AnimalsObjectPage"
+        }
+      ],
+      "targets": {
+        "AnimalsList": {
+          "type": "Component",
+          "id": "AnimalsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Animals",
+              "variantManagement": "Page",
+              "navigation": {
+                "Animals": {
+                  "detail": {
+                    "route": "AnimalsObjectPage"
+                  }
+                }
+              },
+              "views": {
+                "paths": [
+                  {
+                    "key": "tab0",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#SelPreVarAVL"
+                  },
+                  {
+                    "key": "tab1",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#SelPreVarPEN"
+                  }
+                ],
+                "showCounts": true
+              },
+              "initialLoad": "Enabled",
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None"
+                  },
+                  "columns": {
+                    "DataField::healthStatus_code": {
+                      "width": "160px"
+                    },
+                    "DataField::displayName": {
+                      "width": "160px"
+                    },
+                    "DataField::breed": {
+                      "width": "160px"
+                    },
+                    "DataField::adoptionStatus_code": {
+                      "width": "160px"
+                    }
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#AnimalsAvl": {
+                  "columns": {
+                    "DataField::displayName": {
+                      "width": "160px"
+                    },
+                    "DataField::healthStatus_code": {
+                      "width": "160px"
+                    },
+                    "DataField::breed": {
+                      "width": "160px"
+                    },
+                    "DataField::age": {
+                      "width": "160px"
+                    },
+                    "DataField::adoptionStatus_code": {
+                      "width": "160px"
+                    }
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#Pending": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "AnimalsObjectPage": {
+          "type": "Component",
+          "id": "AnimalsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Animals"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}
+
