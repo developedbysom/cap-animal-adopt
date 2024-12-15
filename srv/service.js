@@ -34,6 +34,64 @@ module.exports = class AdopterService extends cds.ApplicationService {
   }
 
   init() {
+    this.on("READ", "Animals", async (req) => {
+      const { Animals } = cds.entities;
+      const { func } = req.query.SELECT.columns[0];
+
+      let result;
+
+      if (func == "count") {
+        return cds.run(req.query);
+      } else {
+        result = await SELECT.from(Animals)
+          .columns((a) => {
+            a`.*`,
+              a.healthStatus((hs) => {
+                hs.name;
+                hs.criticality;
+              }),
+              a.adoptionStatus((as) => {
+                as.name;
+              });
+            a.adopter`[createdBy = ${req.user.id}]`((ad) => {
+              ad.email, ad.phone, ad.address, ad.name;
+            });
+          })
+          .where(req.query.SELECT.where);
+
+        result.$count = result.length;
+      }
+
+      return result;
+    });
+    this.on("DELETE", "AdoptionApplications", async (req) => {
+      const { Animals, AdoptionApplications } = cds.entities;
+
+      //GEt the adoption application ID
+      const { ID } = req.data;
+
+      // Select the animal ID against the application
+      const { animal_ID } = await SELECT.one(
+        AdoptionApplications,
+        (A) => A.animal_ID
+      ).where({
+        ID: ID,
+      });
+      // Delete the selected application
+
+      await DELETE.from(AdoptionApplications).where({
+        ID: ID,
+      });
+      // Update the animal adotion status also remove the adopter linkage
+      await UPDATE.entity(Animals)
+        .with({
+          adoptionStatus_code: "A",
+          adopter_ID: null,
+        })
+        .where({
+          ID: animal_ID,
+        });
+    });
     this.on("Adopt", "Animals", async (req) => {
       //get the Adopter ID
       const { Animals, AdoptionApplications } = cds.entities;

@@ -271,3 +271,86 @@ annotate service.AdoptionStatuses with {
         ![@UI.TextArrangement]: #TextLast,
     }
 };
+annotate service.AdoptionApplications with @(
+    UI.LineItem #tableView : [
+        {
+            $Type : 'UI.DataField',
+            Value : applicationDate,
+            Label : '{i18n>ApplicationDate}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : animal.displayName,
+            Label : '{i18n>Animal}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : animal.healthStatus_code,
+            Criticality : animal.healthStatus.criticality,
+            CriticalityRepresentation : #WithIcon,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : applicationSummary,
+            Label : '{i18n>Summary}',
+        },
+    ],
+    UI.SelectionPresentationVariant #tableView : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem#tableView',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+        Text : '{i18n>Application}',
+    },
+    UI.LineItem #tableView1 : [
+        {
+            $Type : 'UI.DataField',
+            Value : applicationDate,
+            Label : '{i18n>ApplicationDate}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : animal.displayName,
+            Label : '{i18n>Animal}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : applicationSummary,
+            Label : '{i18n>Summary}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : animal.adoptionStatus_code,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : animal.healthStatus_code,
+            Criticality : animal.healthStatus.criticality,
+            CriticalityRepresentation : #WithIcon,
+        },
+    ],
+    UI.SelectionPresentationVariant #tableView1 : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem#tableView1',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+        Text : '{i18n>Applications}',
+    },
+);
+

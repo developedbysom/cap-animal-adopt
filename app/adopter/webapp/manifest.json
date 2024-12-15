@@ -121,6 +121,11 @@
                   {
                     "key": "tab1",
                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#SelPreVarPEN"
+                  },
+                  {
+                    "key": "tableView1",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView1",
+                    "entitySet": "AdoptionApplications"
                   }
                 ],
                 "showCounts": true
@@ -169,6 +174,22 @@
                 "@com.sap.vocabularies.UI.v1.LineItem#Pending": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  }
+                },
+                "/AdoptionApplications/@com.sap.vocabularies.UI.v1.LineItem#tableView1": {
+                  "columns": {
+                    "DataField::animal::displayName": {
+                      "width": "120px"
+                    },
+                    "DataField::applicationSummary": {
+                      "width": "120px"
+                    },
+                    "DataField::animal::adoptionStatus_code": {
+                      "width": "120px"
+                    },
+                    "DataField::animal::healthStatus_code": {
+                      "width": "120px"
+                    }
                   }
                 }
               }

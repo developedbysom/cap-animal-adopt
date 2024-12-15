@@ -11,25 +11,37 @@ service AdopterService {
         update             : Boolean;
     };
 
-    entity Animals              as projection on my.Animals
+    entity Animals               @(restrict: [
+        {
+            grant: ['READ'],
+            to   : 'Adopter'
+        },
+        {
+            grant: ['*'],
+            to   : 'Admin'
+        }
+    ])                          as projection on my.Animals
         actions {
 
             @Common.DefaultValuesFunction   : 'AdopterService.getDefaults'
             @cds.odata.bindingparameter.name: '_currentRow'
             @Common.SideEffects             : {TargetEntities: [_currentRow]}
-            action Adopt(
-                         @UI.ParameterDefaultValue:_currentRow.displayName
-                         name : adopterInput:name,
-                         phone : adopterInput:phone,
-                         email : adopterInput:email,
-                         @UI.MultiLineText:true
-                         address : adopterInput:address,
-                         update : adopterInput:update,
-                         @UI.MultiLineText:true
-                         applicationSummary : adopterInput:applicationSummary
+            action   Adopt       @(restrict: ['CREATE'])(
+                                                         @UI.ParameterDefaultValue:_currentRow.displayName
+                                                         name : adopterInput:name,
+                                                         phone : adopterInput:phone,
+                                                         email : adopterInput:email,
+                                                         @UI.MultiLineText:true
+                                                         address : adopterInput:address,
+                                                         update : adopterInput:update,
+                                                         @UI.MultiLineText:true
+                                                         applicationSummary : adopterInput:applicationSummary
 
             );
-            function getDefaults() returns adopterInput;
+            function getDefaults @(
+                restrict: ['READ'],
+                to      : 'Adopter'
+            )() returns adopterInput;
         };
 
     entity Adopters             as projection on my.Adopters;
