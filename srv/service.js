@@ -1,4 +1,5 @@
 const cds = require("@sap/cds");
+const { Readable, PassThrough } = require("stream");
 
 module.exports = class AdopterService extends cds.ApplicationService {
   async getDefaults(entity, id) {
@@ -114,6 +115,40 @@ module.exports = class AdopterService extends cds.ApplicationService {
         .where({
           ID: animalID,
         });
+    });
+
+    this.on("UPDATE", "Animals/mediaFile", async (req, next) => {
+      const { MediaFile } = cds.entities;
+      const { originalUrl } = req.req;
+
+      if (originalUrl?.includes("content")) {
+        const url = originalUrl;
+        const imageID = req.params[1];
+
+        const passThrough = new PassThrough();
+
+        // Pipe the incoming stream to the PassThrough
+        req.data.content.pipe(passThrough);
+
+        // Collect chunks from the PassThrough
+        const chunks = [];
+        passThrough.on("data", (chunk) => {
+          chunks.push(chunk);
+        });
+
+        passThrough.on("end", async () => {
+          debugger;
+          const content = Buffer.concat(chunks).toString("base64");
+          await UPDATE.entity(MediaFile)
+            .with({
+              content: content,
+              url: url,              
+            })
+            .where({ ID: imageID });
+        });
+      } else {
+        next();
+      }
     });
 
     return super.init();

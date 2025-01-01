@@ -38,10 +38,7 @@ service AdopterService {
                                                          applicationSummary : adopterInput:applicationSummary
 
             );
-            function getDefaults @(
-                restrict: ['READ'],
-                to      : 'Adopter'
-            )() returns adopterInput;
+            function getDefaults @(restrict: ['READ'])() returns adopterInput;
         };
 
     entity Adopters             as projection on my.Adopters;
@@ -50,15 +47,16 @@ service AdopterService {
         select from my.AdoptionApplications
         where
             createdBy = $user.id;
+
+    entity MediaFile            as projection on my.MediaFile;
 }
 
-annotate AdopterService with @(requires: 'Adopter');
 
-service AdminService {
+// service AdminService {
 
-    entity AdoptionApplications as projection on my.AdoptionApplications;
-    entity Animals              as projection on my.Animals;
-}
+//     entity AdoptionApplications as projection on my.AdoptionApplications;
+//     entity Animals              as projection on my.Animals;
+// }
 
-annotate AdminService.AdoptionApplications with @odata.draft.enabled;
-annotate AdminService with @(requires: 'Admin');
+// annotate AdminService.AdoptionApplications with @odata.draft.enabled;
+// annotate AdminService with @(requires: 'Admin');

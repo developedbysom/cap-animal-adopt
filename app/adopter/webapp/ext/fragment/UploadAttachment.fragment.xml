@@ -1,0 +1,174 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:macros="sap.fe.macros"
+    xmlns:upload="sap.m.upload"
+>
+    <VBox core:require="{ handler: 'ns/adopter/ext/fragment/UploadAttachment'}">
+        <Table
+            id="table-uploadSet"
+            sticky="ColumnHeaders,HeaderToolbar"
+            width="auto"
+            mode="MultiSelect"
+            fixedLayout="false"
+            inset="true"
+            autoPopinMode="true"
+            hiddenInPopin="None"
+            items="{
+                path: 'mediaFile',
+                parameters: {
+                    select: 'createdAt'
+                },
+                templateShareable: false
+            }"
+            selectionChange="handler.onSelectionChange"
+        >
+            <headerToolbar>
+                <OverflowToolbar>
+                    <ToolbarSpacer />
+                    <SearchField
+                        width="20%"
+                        liveChange="onSearch"
+                    >
+                        <layoutData>
+                            <OverflowToolbarLayoutData
+                                priority="NeverOverflow"
+                            />
+                        </layoutData>
+                    </SearchField>
+                    <ToolbarSeparator />
+                    <!-- Use the UploadButtonPlaceholder to add the UploadButton to the toolbar -->
+                    <upload:ActionsPlaceholder
+                        id="uploadButton"
+                        placeholderFor="UploadButtonPlaceholder"
+                    />
+                    <Button
+                        id="downloadSelectedButton"
+                        text="Download"
+                        enabled="false"
+                        press="onDownloadFiles"
+                    />
+                    <MenuButton text="Add">
+                        <menu>
+                            <Menu>
+                                <MenuItem
+                                    text="URL"
+                                    press="openAddOrEditDialog"
+                                />
+                            </Menu>
+                        </menu>
+                        <layoutData>
+                            <OverflowToolbarLayoutData
+                                priority="AlwaysOverflow"
+                            />
+                        </layoutData>
+                    </MenuButton>
+                    <Button
+                        id="removeDocumentButton"
+                        text="Remove"
+                        press="onRemoveButtonPress"
+                        enabled="false"
+                    >
+                        <layoutData>
+                            <OverflowToolbarLayoutData
+                                priority="AlwaysOverflow"
+                            />
+                        </layoutData>
+                    </Button>
+                    <Button
+                        id="renameButton"
+                        enabled="false"
+                        press="onRenameDocument"
+                        text="Rename"
+                    >
+                        <layoutData>
+                            <OverflowToolbarLayoutData
+                                priority="AlwaysOverflow"
+                            />
+                        </layoutData>
+                    </Button>
+                    <Button
+                        id="editUrlButton"
+                        text="Edit URL"
+                        enabled="false"
+                        press="onEditUrl"
+                    >
+                        <layoutData>
+                            <OverflowToolbarLayoutData
+                                priority="AlwaysOverflow"
+                            />
+                        </layoutData>
+                    </Button>
+                </OverflowToolbar>
+            </headerToolbar>
+            <dependents>
+                <plugins.UploadSetwithTable
+                    id="uploadSetPlugin"					
+                    httpRequestMethod="Put"
+                    multiple="false"
+                    beforeInitiatingItemUpload="handler.onBeforeUploadStarts"
+                    itemRenamed="onDocumentRenamedSuccess"
+                    uploadCompleted="handler.onUploadCompleted"
+                    onActivated="onPluginActivated"
+                    cloudFilePickerEnabled="true"
+                    actions="uploadButton"
+                >
+                    <rowConfiguration>
+                        <upload.UploadItemConfiguration
+                            fileNamePath="fileName"
+                            mediaTypePath="mediaType"
+                            urlPath="url"
+                            previewablePath="previewable"
+                            fileSizePath="fileSize"
+                            isTrustedSourcePath="trustedSource"
+                        />
+                    </rowConfiguration>
+                </plugins.UploadSetwithTable>
+            </dependents>
+            <columns>
+                <Column
+                    id="fileName"
+                    importance="High"
+                >
+                    <header>
+                        <Label text="File Name" />
+                    </header>
+                </Column>
+                <Column
+                    id="actionButton"
+                    importance="High"
+                />
+            </columns>
+            <items>
+                <ColumnListItem
+                    press="onItemPress"
+                    highlight="{= ${documents&gt;uploadState} === 'Complete' ? 'Indication05' : null }"
+                >
+                    <!-- Cells with cell template defining content for each column (cells and columns work with 1:1 mapping) -->
+                    <cells>
+                        <HBox>
+                            <Image
+                                src="{url}"
+                                class="sapMUSTItemImage sapMUSTItemIcon"
+                            />
+                            <VBox class="sapUiTinyMargin sapUiSmallMarginBegin">
+                                <Link
+                                    text="{fileName}"
+                                    press="handler.openPreview"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                                <Text text="{createdBy}" />
+                            </VBox>
+                        </HBox>
+                        <Button
+                            class="sapUiTinyMarginBegin"
+                            type="Transparent"
+                            icon="sap-icon://decline"
+                            press="onRemoveHandler"
+                        />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </VBox>
+</core:FragmentDefinition>

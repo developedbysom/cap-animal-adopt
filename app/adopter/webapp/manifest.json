@@ -203,7 +203,21 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Animals"
+              "contextPath": "/Animals",
+              "content": {
+                "body": {
+                  "sections": {
+                    "UploadAttachment": {
+                      "template": "ns.adopter.ext.fragment.UploadAttachment",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "i18nAdopterDetails"
+                      },
+                      "title": "{i18n>attachments}"
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -215,4 +229,3 @@
     "archeType": "transactional"
   }
 }
-

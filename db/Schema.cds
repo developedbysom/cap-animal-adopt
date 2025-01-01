@@ -15,7 +15,23 @@ entity Animals : cuid {
     adoptionStatus : Association to AdoptionStatuses;
     adopter        : Association to Adopters;
     displayName    : String = name || ' - (' || species.name || ')';
+    mediaFile      : Composition of many MediaFile
+                         on mediaFile.animal = $self;
 
+}
+
+entity MediaFile : cuid, managed {
+    animal    : Association to Animals;
+
+    @Core.ContentDisposition.Filename: fileName
+    @Core.MediaType                  : mediaType
+    @Core.ContentDisposition.Type    : 'inline'
+    content   : LargeBinary;
+    fileName  : String;
+
+    @Core.IsMediaType                : true
+    mediaType : String default 'application/octet-stream';
+    url       : String;
 }
 
 entity Adopters : cuid, managed {
